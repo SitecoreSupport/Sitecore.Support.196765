@@ -17,8 +17,15 @@
             ExplodeParameters(context);
             string formValue = WebUtil.GetFormValue("scPlainValue");
             context.Parameters.Add("fieldValue", formValue);
-            Context.ClientPage.Start(this, "Run", context.Parameters);
-            
+
+            #region sitecore.support.196765
+            //Context.ClientPage.Start(this, "Run", context.Parameters);
+            var editLink = new EditLink();
+            var args = new ClientPipelineArgs(context.Parameters);
+            args.IsPostBack = true;
+            args.Result = "<link />";
+            Context.ClientPage.Start(editLink, "Run", args);
+            #endregion
         }
     }
 }
